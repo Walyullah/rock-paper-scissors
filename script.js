@@ -1,12 +1,47 @@
-// make a function that returns the computer's choice
-// make a function that lets the player input a choice
-// make a function that plays a round and returns the score
-// make a function for the game and within that make a function that plays 5 rounds
+// make a button for each choice
+// add an eventListener that runs the playRound function
+// edit playRound so playerCHoice is based on button click
+// make a div for results
 
+const button1 = document.querySelector('.one');
+const button2 = document.querySelector('.two');
+const button3 = document.querySelector('.three');
+const div = document.querySelector('div');
+const btn = document.querySelectorAll('button');
+const scores = document.querySelector('.result');
+
+let playerChoice = ''; 
 let playerScore = 0;
 let computerScore = 0;
+let callCount = 0;
 
-function playRound (a, b) {
+button1.addEventListener('click', (e) => playerChoice = e.target.innerText);
+button2.addEventListener('click', (e) => playerChoice = e.target.innerText);
+button3.addEventListener('click', (e) => playerChoice = e.target.innerText);
+
+btn.forEach(button => {
+    button.addEventListener('click', function (e) {
+        playRound(); 
+        callCountIncrease();
+        if (callCount == 5) {
+            if (playerScore > computerScore) {
+                scores.textContent += " yaay, you won the game!";
+            } else if (playerScore < computerScore) {
+                scores.textContent += " pfft, you lost to slamBot;)";
+            } else if (playerScore === computerScore) {
+                scores.textContent += " huh, it's a tie, bummer.";
+            }
+            callCount = 0;
+        }
+    });
+});
+
+function callCountIncrease () {
+    callCount += 1;
+    console.log(`rounds played: ${callCount}`);
+}
+
+function playRound (e) {
 
     let weapons = [
         "pink slipper", // rock
@@ -16,8 +51,6 @@ function playRound (a, b) {
      
     let computerChoice = weapons[Math.floor(Math.random()*weapons.length)]; 
     console.log(`slamBot: ${computerChoice}`);
-    
-    let playerChoice = prompt("choose yer damn weapon: pink slipper, coffee mug, joana.","pink slipper"); //weapons[Math.floor(Math.random()*weapons.length)]; prompt("choose yer damn weapon: pink slipper, coffee mug, joana.","pink slipper")
     console.log(`slamBert: ${playerChoice}`);
 
     if      (playerChoice === "pink slipper" && computerChoice === "coffee mug"
@@ -27,7 +60,7 @@ function playRound (a, b) {
                 computerScore++;
                 console.log(`slamBot has ${computerScore} points`);
                 console.log(`slamBert has ${playerScore} points`);
-                return "you lost, nyany nyany boo boo";
+                scores.textContent = `slamBot has ${computerScore} points. slamBert has ${playerScore} points. you lost, nyany nyany boo boo.`;
     }
     else if (playerChoice === "pink slipper" && computerChoice === "joana"
             || playerChoice === "coffee mug" && computerChoice === "pink slipper" 
@@ -36,7 +69,7 @@ function playRound (a, b) {
                 playerScore++;
                 console.log(`slamBot has ${computerScore} points`);
                 console.log(`slamBert has ${playerScore} points`);
-                return "you won! poor joana";
+                scores.textContent = `slamBot has ${computerScore} points. slamBert has ${playerScore} points. you won! poor joana.`;
                     
     }
     else if (playerChoice === "pink slipper" && computerChoice === "pink slipper"
@@ -45,22 +78,7 @@ function playRound (a, b) {
         
                 console.log(`slamBot has ${computerScore} points`);
                 console.log(`slamBert has ${playerScore} points`);
-                return "tied score";
+                scores.textContent = `slamBot has ${computerScore} points. slamBert has ${playerScore} points. tied score.`;
     }
 }
-
-function game () {
-    for (let i = 0; i < 5; i++) {
-    console.log(playRound());
-    }
-    if (playerScore > computerScore) {
-        console.log("yaay, you won the game!");
-    } else if (playerScore < computerScore) {
-        console.log("pfft, you lost to slamBot;)");
-    } else if (playerScore === computerScore) {
-        console.log("huh, it's a tie, bummer.");
-    }
-}
-
-console.log(game());
 
